@@ -87,6 +87,42 @@ console.log(" ");
 
 		} else if (result.option == 4) {
 
+			console.log(" ")
+			console.log("===== Add New Product =====")
+			console.log(" ")
+
+
+			var schema = {
+				properties: {
+					name: {
+						description: 'What is the name of the product?',
+						required: true
+					},
+					departmentName: {
+						description: 'What is the department name?',
+						required: true
+					},
+					price: {
+						description: 'What is the price?',
+						type: 'number',
+						required: true
+					},
+					stock: {
+						description: 'How much stock?',
+						type: 'number',
+						required: true
+					}
+				}
+			}
+
+			prompt.get(schema, function(err, result){
+				connection.query('INSERT INTO Products (ProductName, DepartmentName, Price, StockQuantity) VALUES ("'+result.name+'", "'+result.departmentName+'", '+result.price+', '+result.stock+');', function(err, res) {
+					if (err) throw err;
+					console.log(" ")
+					console.log("Your product was successfully added!")
+				});
+			});
+
 		} else {
 			console.log("Invalid Input")
 		};
