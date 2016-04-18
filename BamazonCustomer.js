@@ -38,6 +38,7 @@ connection.query('SELECT * FROM products', function(err, rows) {
 		if (rows[result.itemid - 1].StockQuantity < result.quantity) {
 			console.log("Insufficient Quantity");
 		} else {
+			
 			console.log("Yerp we can do that!");
 			console.log("Your order costs: $" + (rows[result.itemid-1].Price * result.quantity));
 			console.log("Thanks for shopping at Kevin's Store!");
