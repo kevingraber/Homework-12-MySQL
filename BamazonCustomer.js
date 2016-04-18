@@ -21,7 +21,7 @@ console.log(" ");
 connection.query('SELECT * FROM products', function(err, rows) {
 	if (err) throw err;
 	for (var i = 0; i < rows.length; i++) {
-		console.log("Item ID: " + rows[i].ItemID + " Name: " + rows[i].ProductName + " Price: " + rows[i].Price);
+		console.log("Item ID: " + rows[i].ItemID + " Name: " + rows[i].ProductName + " Price: $" + rows[i].Price);
 	};
 	var schema = {
 		properties: {
@@ -38,9 +38,15 @@ connection.query('SELECT * FROM products', function(err, rows) {
 		if (rows[result.itemid - 1].StockQuantity < result.quantity) {
 			console.log("Insufficient Quantity");
 		} else {
-			console.log("Yerp we can do that!")
-			console.log("Your order costs: $" + (rows[result.itemid-1].Price * result.quantity))
-			console.log("Thanks for shopping at Keivn's Store!")
+			console.log("Yerp we can do that!");
+			console.log("Your order costs: $" + (rows[result.itemid-1].Price * result.quantity));
+			console.log("Thanks for shopping at Kevin's Store!");
+
+			var newQuantity = ( rows[result.itemid - 1].StockQuantity - result.quantity);
+			connection.query('UPDATE products SET StockQuantity=' + newQuantity + ' WHERE ItemID=' + result.itemid + ';', function(err, red) {
+				if (err) throw err;
+			});
+
 		};
 	});
 });
