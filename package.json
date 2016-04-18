@@ -2,7 +2,7 @@
   "name": "mysqlhomework",
   "version": "1.0.0",
   "description": "An Amazon like storefront using Node and MySQL",
-  "main": "index.js",
+  "main": "BamazonCustomer.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
