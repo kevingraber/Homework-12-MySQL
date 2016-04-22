@@ -1,4 +1,6 @@
 # Homework-12-MySQL
 Building an Amazon-like storefront using MySQL &amp; Node.js.
 
-<iframe width="420" height="315" src="https://www.youtube.com/embed/7HHlWyQNprA" frameborder="0" allowfullscreen></iframe>
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=7HHlWyQNprA
+" target="_blank"><img src="http://img.youtube.com/vi/7HHlWyQNprA/0.jpg" 
+alt="mySQL Homework" width="240" height="180" border="10" /></a>
