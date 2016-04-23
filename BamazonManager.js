@@ -1,7 +1,9 @@
+// Requiring dependencies.
 var mysql = require('mysql');
 var password = require('./password.js');
 var prompt = require('prompt');
 
+// Setting up the connection to mySQL.
 var connection = mysql.createConnection({
 	host: 'localhost',
 	user: 'root',
@@ -9,9 +11,11 @@ var connection = mysql.createConnection({
 	database: 'bamazon'
 });
 
+// Initializing the mySQL connection and prompt.
 connection.connect();
 prompt.start();
 
+// Intro message for the user.
 console.log(" ");
 console.log("Welcome to Kevin's Store Management Application!");
 console.log(" ");
@@ -23,36 +27,42 @@ console.log("3) Add to Inventory");
 console.log("4) Add New Product");
 console.log(" ");
 
-
+	// Asks the user which option they want.
 	prompt.get('option', function(err, result) {
+
+		// If they choose option 1...
 		if (result.option == 1) {
 			console.log(" ")
 			console.log("===== Products For Sale =====")
 			console.log(" ")
 			connection.query('SELECT * FROM products', function(err, rows) {
 				if (err) throw err;
+				// Log all of the products to the console.
 				for (var i = 0; i < rows.length; i++) {
 					console.log("Item ID: " + rows[i].ItemID + " Name: " + rows[i].ProductName + " Price: $" + rows[i].Price + " Quantity: " + rows[i].StockQuantity);
 				};
 			});
+		// If they choose option 2...
 		} else if (result.option == 2) {
 			console.log(" ")
 			console.log("===== Low Inventory =====")
 			console.log(" ")
-
+			// mySQL query that selects all products with 5 items or less in inventory...
 			connection.query('SELECT * FROM products WHERE StockQuantity <= 5', function(err, rows) {
 				if (err) throw err;
+				// ...and logs them to the console!
 				for (var i = 0; i < rows.length; i++) {
 					console.log("Item ID: " + rows[i].ItemID + " Name: " + rows[i].ProductName + " Price: $" + rows[i].Price + " Quantity: " + rows[i].StockQuantity);
 				};
 			});
-
+		// If they choose option 3...
 		} else if (result.option == 3) {
 			console.log(" ")
 			console.log("===== Add to Inventory =====")
 			console.log(" ")
 			console.log("Here is the current inventory for reference:")
 
+			// Select everything from the product table.
 			connection.query('SELECT * FROM products', function(err, rows) {
 				if (err) throw err;
 				for (var i = 0; i < rows.length; i++) {
@@ -70,6 +80,7 @@ console.log(" ");
 						}
 					}
 				}
+				// Ask the user for information to update stock quantity.
 				prompt.get(schema, function(err, result){
 					var newTotal = rows[result.itemid-1].StockQuantity + result.quantity;
 					connection.query('UPDATE products SET StockQuantity="'+newTotal+'" WHERE ItemID="'+result.itemid+'"', function(err, res) {
@@ -84,7 +95,7 @@ console.log(" ");
 			});
 
 			console.log(" ");
-
+		// If they choose option 4...
 		} else if (result.option == 4) {
 
 			console.log(" ")
@@ -114,7 +125,7 @@ console.log(" ");
 					}
 				}
 			}
-
+			// Getting the information to add a product to the databse.
 			prompt.get(schema, function(err, result){
 				connection.query('INSERT INTO Products (ProductName, DepartmentName, Price, StockQuantity) VALUES ("'+result.name+'", "'+result.departmentName+'", '+result.price+', '+result.stock+');', function(err, res) {
 					if (err) throw err;
@@ -122,37 +133,8 @@ console.log(" ");
 					console.log("Your product was successfully added!")
 				});
 			});
-
+		// If they enter something else.
 		} else {
 			console.log("Invalid Input")
 		};
 	});
-
-
-// connection.query('SELECT * FROM products', function(err, rows) {
-// 	if (err) throw err;
-// 	prompt.get('option', function(err, result) {
-// 		if (result.option == 1) {
-// 			console.log(" ")
-// 			console.log("===== Products For Sale =====")
-// 			console.log(" ")
-// 			for (var i = 0; i < rows.length; i++) {
-// 				console.log("Item ID: " + rows[i].ItemID + " Name: " + rows[i].ProductName + " Price: $" + rows[i].Price + " Quantity: " + rows[i].StockQuantity);
-// 			};
-// 		} else if (result.option == 2) {
-// 			console.log(" ")
-// 			console.log("===== Low Inventory =====")
-// 			console.log(" ")
-// 			for (var i = 0; i < rows.length; i++) {
-// 				if ()
-// 				console.log("Item ID: " + rows[i].ItemID + " Name: " + rows[i].ProductName + " Price: $" + rows[i].Price + " Quantity: " + rows[i].StockQuantity);
-// 			};
-// 		} else if (result.option == 3) {
-
-// 		} else if (result.option == 4) {
-
-// 		} else {
-// 			console.log("Invalid Input")
-// 		};
-// 	});
-// });
